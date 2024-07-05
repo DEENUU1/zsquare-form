@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl" class="bg-gray-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>ZSquare - Formularz Rowerowy</title>
+</head>
+<body class="container mx-auto p-4 md:p-8 font-sans">
+
+<div class="bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+    <h1 class="font-bold text-4xl md:text-5xl mb-8 text-green-600 text-center">Formularz Rowerowy</h1>
+
+    <form class="space-y-10">
+        <div id="personalData" class="space-y-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Dane osobowe</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Imię i nazwisko*</label>
+                    <input required placeholder="Jan Kowalski" id="full_name" name="full_name" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="birth_date" class="block text-sm font-medium text-gray-700 mb-1">Data urodzenia</label>
+                    <input id="birth_date" name="birth_date" type="date"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Miejsce
+                        zamieszkania</label>
+                    <input placeholder="Warszawa" id="location" name="location" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefon*</label>
+                    <input required placeholder="123-123-123" id="phone" name="phone" type="tel"
+                           pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adres email*</label>
+                    <input required placeholder="jankowalski@gmail.com" id="email" name="email" type="email"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="bike space-y-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Sprzęt rowerowy</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="bike" class="block text-sm font-medium text-gray-700 mb-1">Rower</label>
+                    <input placeholder="Marka/model/rozmiar" id="bike" name="bike" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="shoes" class="block text-sm font-medium text-gray-700 mb-1">Buty</label>
+                    <input placeholder="Marka/model" id="shoes" name="shoes" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="inserts" class="block text-sm font-medium text-gray-700 mb-1">Wkładki</label>
+                    <input placeholder="Typ wkładek" id="inserts" name="inserts" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div>
+                    <label for="pedals" class="block text-sm font-medium text-gray-700 mb-1">Pedały</label>
+                    <input placeholder="Marka/model" id="pedals" name="pedals" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="otherBike" class="block text-sm font-medium text-gray-700 mb-1">Inne rowery</label>
+                    <input placeholder="Dodatkowe rowery" id="otherBike" name="otherBike" type="text"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="adnotation" class="block text-sm font-medium text-gray-700 mb-1">Adnotacja</label>
+                    <textarea placeholder="Dodatkowe informacje o sprzęcie" id="adnotation" name="adnotation" rows="3"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="history space-y-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Historia sportowa</h2>
+            <div class="space-y-6">
+                <div>
+                    <label for="sportHistory" class="block text-sm font-medium text-gray-700 mb-1">Historia
+                        sportowa</label>
+                    <textarea
+                            placeholder="Liczba lat uprawiania kolarstwa, historia startów, wyniki, czas treningu w tygodniu, standardowa jazda długość, pomiar mocy/kadencji, cele sportowe, inne aktywności sportowe"
+                            id="sportHistory" name="sportHistory" rows="6"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
+                </div>
+                <div>
+                    <label for="sportHistoryAdnotation"
+                           class="block text-sm font-medium text-gray-700 mb-1">Adnotacja</label>
+                    <textarea placeholder="Dodatkowe uwagi dotyczące historii sportowej" id="sportHistoryAdnotation"
+                              name="sportHistoryAdnotation" rows="3"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <button type="submit"
+                    class="px-8 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-150 ease-in-out transform hover:scale-105">
+                Wyślij formularz
+            </button>
+        </div>
+    </form>
+</div>
+
+<footer class="mt-8 text-center text-sm text-gray-500">
+    &copy; 2024 ZSquare. Wszelkie prawa zastrzeżone.
+</footer>
+
+</body>
+</html>
