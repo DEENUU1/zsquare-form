@@ -2,13 +2,14 @@ from fastapi import FastAPI, Request, Form, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import HTMLResponse
-from sqlalchemy import ForeignKey, Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from dotenv import load_dotenv
-from sqlalchemy.orm import relationship
 import os
-
+from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func, create_engine
+from sqlalchemy.orm import relationship
+from enum import Enum
+from sqlalchemy import Enum as SQLAlchemyEnum
 
 load_dotenv()
 
@@ -34,6 +35,9 @@ def get_db():
         db.close()
 
 
+
+
+
 class FormData(Base):
     __tablename__ = "form"
 
@@ -47,6 +51,9 @@ class FormData(Base):
     sport_history = Column(String, nullable=True)
     sport_annotation = Column(String, nullable=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
+    message = relationship("Message", backref="form", cascade="all, delete-orphan")
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 class Client(Base):
@@ -59,6 +66,25 @@ class Client(Base):
     phone = Column(String, nullable=False)
     email = Column(String, nullable=False)
     form = relationship("FormData", backref="client", cascade="all, delete-orphan")
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+
+class Role(Enum):
+    assistant = "assistant"
+    user = "user"
+    system = "system"
+
+
+class Message(Base):
+    __tablename__ = "message"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    role = Column(SQLAlchemyEnum(Role), nullable=False)
+    text = Column(String, nullable=False)
+    form_id = Column(Integer, ForeignKey("form.id"), nullable=False)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 @app.on_event("startup")
@@ -66,6 +92,7 @@ def on_startup():
     Base.metadata.create_all(bind=engine)
     Client.metadata.create_all(bind=engine)
     FormData.metadata.create_all(bind=engine)
+    Message.metadata.create_all(bind=engine)
 
 
 def get_client_by_email_phone(db: Session, email: str, phone: str):
