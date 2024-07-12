@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form, Depends
+from fastapi import FastAPI, Request, Form, Depends, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import HTMLResponse
@@ -12,19 +12,17 @@ from enum import Enum
 from sqlalchemy import Enum as SQLAlchemyEnum
 from clickup import validate_user
 
-
 load_dotenv()
 
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+
+
 app = FastAPI()
+
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")  #  "sqlite:///database.db"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    # connect_args={"check_same_thread": False},
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL,)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -35,9 +33,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-
 
 
 class FormData(Base):
@@ -120,6 +115,12 @@ def create_form_data(db: Session, form_data: FormData, client_id: int):
     return form_data
 
 
+def save_to_database(db: Session, client: Client, form_data: FormData) -> None:
+    client_obj = create_client(db, client)
+    create_form_data(db, form_data, client_obj.id)
+    return
+
+
 @app.get("/", response_class=HTMLResponse)
 def home(
         request: Request,
@@ -131,6 +132,7 @@ def home(
 @app.post("/submit-form")
 def submit_form(
         request: Request,
+        background_tasks: BackgroundTasks,
         full_name: str = Form(...),
         birth_date: str = Form(None),
         location: str = Form(None),
@@ -140,35 +142,29 @@ def submit_form(
         shoes: str = Form(None),
         inserts: str = Form(None),
         pedals: str = Form(None),
-        otherBike: str = Form(None),
+        other_bike: str = Form(None),
         adnotation: str = Form(None),
-        sportHistory: str = Form(None),
-        sportHistoryAdnotation: str = Form(None),
-        db: Session = Depends(get_db)
+        sport_history: str = Form(None),
+        sport_history_adnotation: str = Form(None),
+        db: Session = Depends(get_db),
 ):
-    if not validate_user(email):
+    validated_user, user_id = validate_user(email)
+
+    if not validated_user:
         return {"error": "Invalid user"}
 
-    client = Client(
-        full_name=full_name,
-        birth_date=birth_date,
-        location=location,
-        phone=phone,
-        email=email
-    )
+    client = Client(full_name=full_name, birth_date=birth_date, location=location, phone=phone, email=email)
 
     form_data = FormData(
         bike=bike,
         boots=shoes,
         insoles=inserts,
         pedals=pedals,
-        other_bikes=otherBike,
+        other_bikes=other_bike,
         tool_annotation=adnotation,
-        sport_history=sportHistory,
-        sport_annotation=sportHistoryAdnotation
+        sport_history=sport_history,
+        sport_annotation=sport_history_adnotation
     )
 
-    client = create_client(db, client)
-    create_form_data(db, form_data, client.id)
-
+    background_tasks.add_task(save_to_database, db, client, form_data)
     return {"message": "Form submitted successfully"}

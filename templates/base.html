@@ -12,8 +12,29 @@
     <h1 class="font-bold text-4xl md:text-5xl mb-8 text-green-600 text-center">Formularz</h1>
 
     <form class="space-y-10" action="/submit-form" method="post" id="myForm">
-        <div id="personalData" class="space-y-6">
+        <div class="mb-4">
+            <div class="flex justify-between items-center">
+                <button type="button" id="prevBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md">Poprzedni
+                </button>
+                <div>
+                    <button type="button" class="section-btn px-3 py-1 mx-1 bg-green-500 text-white rounded-full"
+                            data-section="1">1
+                    </button>
+                    <button type="button" class="section-btn px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-full"
+                            data-section="2">2
+                    </button>
+                    <button type="button" class="section-btn px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-full"
+                            data-section="3">3
+                    </button>
+                </div>
+                <button type="button" id="nextBtn" class="px-4 py-2 bg-green-500 text-white rounded-md">Następny
+                </button>
+            </div>
+        </div>
+
+        <div id="section1" class="section">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Dane osobowe</h2>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Imię i nazwisko*</label>
@@ -45,7 +66,7 @@
             </div>
         </div>
 
-        <div class="bike space-y-6">
+        <div id="section2" class="section hidden">
             <h2 class="text-2xl font-bold font-semibold text-gray-800 mb-4 border-b pb-2">Sprzęt rowerowy</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -69,8 +90,8 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
                 </div>
                 <div class="md:col-span-2">
-                    <label for="otherBike" class="block text-sm font-medium text-gray-700 mb-1">Inne rowery</label>
-                    <input placeholder="Dodatkowe rowery" id="otherBike" name="otherBike" type="text"
+                    <label for="other_bike" class="block text-sm font-medium text-gray-700 mb-1">Inne rowery</label>
+                    <input placeholder="Dodatkowe rowery" id="other_bike" name="other_bike" type="text"
                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
                 </div>
                 <div class="md:col-span-2">
@@ -81,22 +102,22 @@
             </div>
         </div>
 
-        <div class="history space-y-6">
+        <div id="section3" class="section hidden">
             <h2 class="text-2xl font-semibold font-bold text-gray-800 mb-4 border-b pb-2">Historia sportowa</h2>
             <div class="space-y-6">
                 <div>
-                    <label for="sportHistory" class="block text-sm font-medium text-gray-700 mb-1">Historia
+                    <label for="sport_history" class="block text-sm font-medium text-gray-700 mb-1">Historia
                         sportowa</label>
                     <textarea
                             placeholder="Liczba lat uprawiania kolarstwa, historia startów, wyniki, czas treningu w tygodniu, standardowa jazda długość, pomiar mocy/kadencji, cele sportowe, inne aktywności sportowe"
-                            id="sportHistory" name="sportHistory" rows="6"
+                            id="sport_history" name="sport_history" rows="6"
                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
                 </div>
                 <div>
-                    <label for="sportHistoryAdnotation"
+                    <label for="sport_history_adnotation"
                            class="block text-sm font-medium text-gray-700 mb-1">Adnotacja</label>
-                    <textarea placeholder="Dodatkowe uwagi dotyczące historii sportowej" id="sportHistoryAdnotation"
-                              name="sportHistoryAdnotation" rows="3"
+                    <textarea placeholder="Dodatkowe uwagi dotyczące historii sportowej" id="sport_history_adnotation"
+                              name="sport_history_adnotation" rows="3"
                               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
                 </div>
             </div>
@@ -114,6 +135,68 @@
 <footer class="mt-8 text-center text-sm text-gray-500">
     &copy; 2024 ZSquare. Wszelkie prawa zastrzeżone.
 </footer>
+<script>
+    let currentSection = 1;
+    const totalSections = 3;
+
+    function showSection(sectionNumber) {
+        document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
+        document.getElementById(`section${sectionNumber}`).classList.remove('hidden');
+
+        document.querySelectorAll('.section-btn').forEach(btn => {
+            btn.classList.remove('bg-green-500', 'text-white');
+            btn.classList.add('bg-gray-300', 'text-gray-700');
+        });
+        document.querySelector(`.section-btn[data-section="${sectionNumber}"]`).classList.add('bg-green-500', 'text-white');
+        document.querySelector(`.section-btn[data-section="${sectionNumber}"]`).classList.remove('bg-gray-300', 'text-gray-700');
+
+        currentSection = sectionNumber;
+        updateButtons();
+    }
+
+    function updateButtons() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (currentSection === 1) {
+            prevBtn.disabled = true;
+            prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            prevBtn.disabled = false;
+            prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        if (currentSection === totalSections) {
+            nextBtn.disabled = true;
+            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        document.getElementById('submitBtn').style.display = currentSection === totalSections ? 'inline-block' : 'none';
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentSection > 1) {
+            showSection(currentSection - 1);
+        }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentSection < totalSections) {
+            showSection(currentSection + 1);
+        }
+    });
+
+    document.querySelectorAll('.section-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            showSection(parseInt(e.target.dataset.section));
+        });
+    });
+
+    showSection(1);
+</script>
 
 </body>
 </html>
