@@ -1,0 +1,194 @@
+{
+  'tasks': [
+    {
+      'id': '86952vuk5',
+      'custom_id': None,
+      'custom_item_id': 0,
+      'name': 'Jan Kowalski',
+      'text_content': '',
+      'description': '',
+      'status': {
+        'status': 'to do',
+        'id': 'p90120703006_p90100401420_p32280339_DCnaeiSB',
+        'color': '#87909e',
+        'type': 'open',
+        'orderindex': 0
+      },
+      'orderindex': '39908149.000096300000000000000
+      00000000000
+      ', '
+      date_created
+      ': '
+      1720778962272
+      ', '
+      date_updated
+      ': '
+      1720779826396
+      ', '
+      date_closed
+      ': None, '
+      date_done
+      ': None, '
+      archived
+      ': False, '
+      creator
+      ': {'
+      id
+      ': 74607519, '
+      usernam
+      e
+      ': '
+      Szymon
+      Zielinski
+      ', '
+      color
+      ': '
+      ', '
+      email
+      ': '
+      szymon@zsquare.pl
+      ', '
+      profilePicture
+      ': None}, '
+      assignees
+      ': [], '
+      group_assignees
+      ': [], '
+      watchers
+      ': [{'
+      id
+      ': 74607519, '
+      username
+      ': '
+      Szymon
+      Zielinski
+      ', '
+      color
+      ': '
+      ', '
+      initials
+      ': '
+      SZ
+      ', '
+      email
+      ': '
+      szymon@zsquare.pl
+      ', '
+      profilePicture
+      ': None}], '
+      checklists
+      ': [], '
+      tags
+      ': [], '
+      parent
+      ': None, '
+      priority
+      ': None, '
+      due_
+      date
+      ': None, '
+      start_date
+      ': None, '
+      points
+      ': None, '
+      time_estimate
+      ': None, '
+      custom_fields
+      ': [{'
+      id
+      ': '
+      26333d2a-fad7-4fb3-bace-d3d6f460239a
+      ', '
+      name
+      ': '
+      Birth
+      date
+      (app)
+      ', '
+      type
+      ': '
+      s
+      hort_text
+      ', '
+      type_config
+      ': {}, '
+      date_created
+      ': '
+      1720779785342
+      ', '
+      hide_from_guests
+      ': False, '
+      required
+      ': False}, {'
+      id
+      ': '
+      92baac0b-f87d-42eb-af43-6b72cc92ca83
+      ', '
+      name
+      ': '
+      Appointm
+      ent
+      ', '
+      type
+      ': '
+      list_relationship
+      ', '
+      type_config
+      ': {'
+      fields
+      ': [], '
+      subcategory_id
+      ': '
+      901202897196
+      ', '
+      linked_subcategory_access
+      ': True, '
+      subcategory_inverted_name
+      ': '
+      Appointment
+      '}, '
+      date_created
+      ': '
+      1720779217372
+      ', '
+      hide_from_guests
+      ': False, '
+      value
+      ': [{'
+      id
+      ': '
+      86952vw0e
+      ', '
+      name
+      ': '
+      12.07.2024
+      ', '
+      status
+      ': '
+      to
+      do
+      ', '
+      color
+      ': '
+      #
+      87909e
+      ', '
+      custom_type
+      ': None,
+      'team_id': '9012103454',
+      'deleted': False,
+      'url': 'https://app.clickup.com/t/86952vw0e',
+      'access': True
+    }
+  ],
+  'required': False
+}, {'id': '40da14a4-2887-4929-8996-51da3e59d5d1',
+'name': 'Client id (app)', 'type': 'number', 'type_config': {}, 'date_created': '1720780260756', 'hide_from_guests': False, 'required': False}, {
+'id': '103d8d8f-210f-440d-8072
+-2f7c418f4918', 'name': 'Email', 'type': 'email', 'type_config': {}, 'date_created': '1720778948309', 'hide_from_guests': False, 'value': 'jankowalski@wp.pl', 'required': Fals
+e}, {'id': '24500e65-ebdd-4873-a04d-67f5f9bbaa80', 'name': 'Location (app)', 'type': 'location', 'type_config': {}, 'date_created': '1720779823404', 'hide_from_guests': False,
+'required': False}, {'id': '23c1ca86-1fcd-4454-8890-1c23671a70e7', 'name': 'Phone', 'type': 'phone', 'type_config': {}, 'date_created': '1720779840102', 'hide_from_guests': F
+alse, 'required': False}], 'dependencies': [], 'linked_tasks': [], 'locations': [], 'team_id': '9012103454', 'url': 'https://app.clickup.com/t/86952vuk5', 'sharing': {'public': False, 'public_share_expires_on': None, 'public_fields': [
+'assignees', 'priority', 'due_date', 'content', 'comments', 'attachments', 'customFields', 'subtasks', 'tags', 'che
+cklists', 'coverimage'], 'token': None, 'seo_optimized': False}, 'permission_level': 'create', 'list': {'id': '901202897167', 'name': 'Clients', 'access': True}, 'project': {'
+id': '90121660399', 'name': 'Projects', 'hidden': False, 'access': True}, 'folder': {'id': '90121660399', 'name': 'Projects', 'hidden': False, 'access': True}, 'space': {'id': '90120703006'}}], 'last_page': True}

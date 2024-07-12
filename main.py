@@ -10,6 +10,8 @@ from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func, crea
 from sqlalchemy.orm import relationship
 from enum import Enum
 from sqlalchemy import Enum as SQLAlchemyEnum
+from clickup import validate_user
+
 
 load_dotenv()
 
@@ -144,6 +146,9 @@ def submit_form(
         sportHistoryAdnotation: str = Form(None),
         db: Session = Depends(get_db)
 ):
+    if not validate_user(email):
+        return {"error": "Invalid user"}
+
     client = Client(
         full_name=full_name,
         birth_date=birth_date,
