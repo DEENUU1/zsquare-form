@@ -97,6 +97,8 @@ def update_user(
 def validate_user(email: str) -> tuple[bool, str]:
     clients = get_clients()
     valid_user, user_id = check_user_exists(email, clients)
+    logger.info(f"User exists: {valid_user}")
+    logger.info(f"User ID: {user_id}")
     return valid_user, user_id
 
 

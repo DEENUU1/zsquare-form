@@ -11,6 +11,15 @@ from sqlalchemy.orm import relationship
 from enum import Enum
 from sqlalchemy import Enum as SQLAlchemyEnum
 from clickup import validate_user
+import logging
+
+
+logging.basicConfig(
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -148,23 +157,27 @@ def submit_form(
         sport_history_adnotation: str = Form(None),
         db: Session = Depends(get_db),
 ):
-    validated_user, user_id = validate_user(email)
+    try:
+        validated_user, user_id = validate_user(email)
 
-    if not validated_user:
-        return {"error": "Invalid user"}
+        if not validated_user:
+            return {"error": "Podaj poprawny adres email."}
 
-    client = Client(full_name=full_name, birth_date=birth_date, location=location, phone=phone, email=email)
+        client = Client(full_name=full_name, birth_date=birth_date, location=location, phone=phone, email=email)
 
-    form_data = FormData(
-        bike=bike,
-        boots=shoes,
-        insoles=inserts,
-        pedals=pedals,
-        other_bikes=other_bike,
-        tool_annotation=adnotation,
-        sport_history=sport_history,
-        sport_annotation=sport_history_adnotation
-    )
+        form_data = FormData(
+            bike=bike,
+            boots=shoes,
+            insoles=inserts,
+            pedals=pedals,
+            other_bikes=other_bike,
+            tool_annotation=adnotation,
+            sport_history=sport_history,
+            sport_annotation=sport_history_adnotation
+        )
 
-    background_tasks.add_task(save_to_database, db, client, form_data)
-    return {"message": "Form submitted successfully"}
+        background_tasks.add_task(save_to_database, db, client, form_data)
+        return {"message": "Formularz wysłany!"}
+    except Exception as e:
+        logger.error(e)
+        return {"error": "Wystąpił błąd, spróbuj ponownie później."}
