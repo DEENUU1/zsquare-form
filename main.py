@@ -155,6 +155,8 @@ def submit_form(
         adnotation: str = Form(None),
         sport_history: str = Form(None),
         sport_history_adnotation: str = Form(None),
+        position_problem: str = Form(None),
+        adnotation_position_problem: str = Form(None),
         db: Session = Depends(get_db),
 ):
     try:
