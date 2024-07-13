@@ -47,6 +47,9 @@
                     <button type="button" class="section-btn px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-full"
                             data-section="4">4
                     </button>
+                    <button type="button" class="section-btn px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-full"
+                            data-section="4">5
+                    </button>
                 </div>
                 <button type="button" id="nextBtn" class="px-4 py-2 bg-green-500 text-white rounded-md">Następny
                 </button>
@@ -144,7 +147,192 @@
             </div>
         </div>
 
-        <div id="section4" class="section hidden">
+<div id="section4" class="section hidden">
+    <h2 class="text-2xl font-semibold font-bold text-gray-800 mb-4 border-b pb-2">Szczegóły historii sportowej</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="years_cycling" class="block text-sm font-medium text-gray-700 mb-1">Ile lat jeździsz na rowerze szosowym / gravelowym</label>
+            <input type="number" id="years_cycling" name="years_cycling" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="annual_mileage" class="block text-sm font-medium text-gray-700 mb-1">Jaki jest twój roczny przebieg w kilometrach</label>
+            <input type="number" id="annual_mileage" name="annual_mileage" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="weekly_rides" class="block text-sm font-medium text-gray-700 mb-1">Ile razy w tygodniu wychodzisz na rower</label>
+            <input type="number" id="weekly_rides" name="weekly_rides" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="session_duration" class="block text-sm font-medium text-gray-700 mb-1">Ile trwa jedna sesja</label>
+            <input type="text" id="session_duration" name="session_duration" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Czy do tej pory startowałeś w zawodach</label>
+            <div class="mt-2 space-x-4">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="participated_in_races" value="yes" class="form-radio text-green-500">
+                    <span class="ml-2">Tak</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="participated_in_races" value="no" class="form-radio text-green-500">
+                    <span class="ml-2">Nie</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="best_results" class="block text-sm font-medium text-gray-700 mb-1">Jeśli startowałeś podaj najlepsze wyniki</label>
+            <input type="text" id="best_results" name="best_results" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="intensity_measurement" class="block text-sm font-medium text-gray-700 mb-1">Jeśli mierzysz intensywność jazdy to w jaki sposób</label>
+            <select id="intensity_measurement" name="intensity_measurement" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="nie_mierze">Nie mierzę</option>
+                <option value="skala_rpe">Skala RPE</option>
+                <option value="pulsometr">Pulsometr</option>
+                <option value="pomiar_mocy">Pomiar mocy</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="other_sports" class="block text-sm font-medium text-gray-700 mb-1">Czy poza rowerem uprawiasz inne sporty</label>
+            <input type="text" id="other_sports" name="other_sports" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="bike_confidence" class="block text-sm font-medium text-gray-700 mb-1">Jak pewnie czujesz się na rowerze</label>
+            <select id="bike_confidence" name="bike_confidence" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję (1-10)</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Czy podczas jazdy zmieniasz biegi?</label>
+            <div class="mt-2 space-x-4">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="gear_changing" value="yes" class="form-radio text-green-500">
+                    <span class="ml-2">Tak</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="gear_changing" value="no" class="form-radio text-green-500">
+                    <span class="ml-2">Nie</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Czy jeździsz jesienią i zimą</label>
+            <div class="mt-2 space-x-4">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="autumn_winter_riding" value="yes" class="form-radio text-green-500">
+                    <span class="ml-2">Tak</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="autumn_winter_riding" value="no" class="form-radio text-green-500">
+                    <span class="ml-2">Nie</span>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label for="preferred_grip" class="block text-sm font-medium text-gray-700 mb-1">Który chwyt kierownicy preferujesz</label>
+            <select id="preferred_grip" name="preferred_grip" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="gorny">Górny</option>
+                <option value="dolny">Dolny</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="cadence_comfort" class="block text-sm font-medium text-gray-700 mb-1">Czy czujesz większy komfort jeżdząc na wysokiej czy na niskiej kadencji?</label>
+            <select id="cadence_comfort" name="cadence_comfort" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="wysoka">Wysoka kadencja</option>
+                <option value="niska">Niska kadencja</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="other_bikes" class="block text-sm font-medium text-gray-700 mb-1">Czy poza rowerem sportowym posiadasz inne rowery?</label>
+            <input type="text" id="other_bikes" name="other_bikes" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label for="group_riding_skills" class="block text-sm font-medium text-gray-700 mb-1">Jak określasz swoje umiejętności jazdy w grupie</label>
+            <select id="group_riding_skills" name="group_riding_skills" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="poczatkujacy">Początkujący</option>
+                <option value="sredniozaawansowany">Średniozaawansowany</option>
+                <option value="zaawansowany">Zaawansowany</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="cornering_style" class="block text-sm font-medium text-gray-700 mb-1">Jak lubisz pokonywać zakręty</label>
+            <select id="cornering_style" name="cornering_style" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="szybko">Szybko i dynamicznie</option>
+                <option value="wolno">Wolniej i ostrożniej</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="brake_usage" class="block text-sm font-medium text-gray-700 mb-1">Jakiego hamulca używasz?</label>
+            <select id="brake_usage" name="brake_usage" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="przedni">Tylko przedni</option>
+                <option value="tylni">Tylko tylni</option>
+                <option value="oba">Przedni i tylni</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="tire_pressure_check" class="block text-sm font-medium text-gray-700 mb-1">Jak często sprawdzasz ciśnienie opon</label>
+            <select id="tire_pressure_check" name="tire_pressure_check" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                <option value="">Wybierz opcję</option>
+                <option value="przed_kazda_jazda">Przed każdą jazdą</option>
+                <option value="raz_w_tygodniu">Raz w tygodniu</option>
+                <option value="okazyjnie">Okazyjnie</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="injuries" class="block text-sm font-medium text-gray-700 mb-1">Czy przebyłeś kontuzje?</label>
+            <input type="text" id="injuries" name="injuries" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out"/>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Czy kontuzje te przydarzyły się podczas jazdy na rowerze?</label>
+            <div class="mt-2 space-x-4">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="injuries_during_cycling" value="yes" class="form-radio text-green-500">
+                    <span class="ml-2">Tak</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="injuries_during_cycling" value="no" class="form-radio text-green-500">
+                    <span class="ml-2">Nie</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+        <div id="section5" class="section hidden">
             <h2 class="text-2xl font-semibold font-bold text-gray-800 mb-4 border-b pb-2">Problem</h2>
             <div class="space-y-6">
                 <div>
@@ -218,7 +406,7 @@
 
 
     let currentSection = 1;
-    const totalSections = 4;
+    const totalSections = 5;
 
     function showSection(sectionNumber) {
         document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
