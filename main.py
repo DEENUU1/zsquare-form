@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from dotenv import load_dotenv
 import os
-from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func, create_engine
+from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func, create_engine, Boolean
 from sqlalchemy.orm import relationship
 from enum import Enum
 from sqlalchemy import Enum as SQLAlchemyEnum
@@ -56,6 +56,27 @@ class FormData(Base):
     tool_annotation = Column(String, nullable=True)
     sport_history = Column(String, nullable=True)
     sport_annotation = Column(String, nullable=True)
+    position_problem = Column(String, nullable=True)
+    adnotation_position_problem = Column(String, nullable=True)
+    years_cycling = Column(Integer, nullable=True)
+    annual_mileage = Column(Integer, nullable=True)
+    weekly_rides = Column(Integer, nullable=True)
+    session_duration = Column(String, nullable=True)
+    participated_in_races = Column(Boolean, nullable=True)
+    best_results = Column(String, nullable=True)
+    intensity_measurement = Column(String, nullable=True)
+    other_sports = Column(String, nullable=True)
+    bike_confidence = Column(Integer, nullable=True)
+    gear_changing = Column(Boolean, nullable=True)
+    autumn_winter_riding = Column(Boolean, nullable=True)
+    preferred_grip = Column(String, nullable=True)
+    cadence_comfort = Column(String, nullable=True)
+    group_riding_skills = Column(String, nullable=True)
+    cornering_style = Column(String, nullable=True)
+    brake_usage = Column(String, nullable=True)
+    tire_pressure_check = Column(String, nullable=True)
+    injuries = Column(String, nullable=True)
+    injuries_during_cycling = Column(Boolean, nullable=True)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
     message = relationship("Message", backref="form", cascade="all, delete-orphan")
     created_at = Column(DateTime, default=func.now())
@@ -140,24 +161,43 @@ def home(
 
 @app.post("/submit-form")
 def submit_form(
-        request: Request,
-        background_tasks: BackgroundTasks,
-        full_name: str = Form(...),
-        birth_date: str = Form(None),
-        location: str = Form(None),
-        phone: str = Form(...),
-        email: str = Form(...),
-        bike: str = Form(None),
-        shoes: str = Form(None),
-        inserts: str = Form(None),
-        pedals: str = Form(None),
-        other_bike: str = Form(None),
-        adnotation: str = Form(None),
-        sport_history: str = Form(None),
-        sport_history_adnotation: str = Form(None),
-        position_problem: str = Form(None),
-        adnotation_position_problem: str = Form(None),
-        db: Session = Depends(get_db),
+    request: Request,
+    background_tasks: BackgroundTasks,
+    full_name: str = Form(...),
+    birth_date: str = Form(None),
+    location: str = Form(None),
+    phone: str = Form(...),
+    email: str = Form(...),
+    bike: str = Form(None),
+    shoes: str = Form(None),
+    inserts: str = Form(None),
+    pedals: str = Form(None),
+    other_bike: str = Form(None),
+    adnotation: str = Form(None),
+    sport_history: str = Form(None),
+    sport_history_adnotation: str = Form(None),
+    position_problem: str = Form(None),
+    adnotation_position_problem: str = Form(None),
+    years_cycling: int = Form(None),
+    annual_mileage: int = Form(None),
+    weekly_rides: int = Form(None),
+    session_duration: str = Form(None),
+    participated_in_races: bool = Form(None),
+    best_results: str = Form(None),
+    intensity_measurement: str = Form(None),
+    other_sports: str = Form(None),
+    bike_confidence: int = Form(None),
+    gear_changing: bool = Form(None),
+    autumn_winter_riding: bool = Form(None),
+    preferred_grip: str = Form(None),
+    cadence_comfort: str = Form(None),
+    group_riding_skills: str = Form(None),
+    cornering_style: str = Form(None),
+    brake_usage: str = Form(None),
+    tire_pressure_check: str = Form(None),
+    injuries: str = Form(None),
+    injuries_during_cycling: bool = Form(None),
+    db: Session = Depends(get_db),
 ):
     try:
         validated_user, user_id = validate_user(email)
@@ -175,7 +215,28 @@ def submit_form(
             other_bikes=other_bike,
             tool_annotation=adnotation,
             sport_history=sport_history,
-            sport_annotation=sport_history_adnotation
+            sport_annotation=sport_history_adnotation,
+            position_problem=position_problem,
+            adnotation_position_problem=adnotation_position_problem,
+            years_cycling=years_cycling,
+            annual_mileage=annual_mileage,
+            weekly_rides=weekly_rides,
+            session_duration=session_duration,
+            participated_in_races=participated_in_races,
+            best_results=best_results,
+            intensity_measurement=intensity_measurement,
+            other_sports=other_sports,
+            bike_confidence=bike_confidence,
+            gear_changing=gear_changing,
+            autumn_winter_riding=autumn_winter_riding,
+            preferred_grip=preferred_grip,
+            cadence_comfort=cadence_comfort,
+            group_riding_skills=group_riding_skills,
+            cornering_style=cornering_style,
+            brake_usage=brake_usage,
+            tire_pressure_check=tire_pressure_check,
+            injuries=injuries,
+            injuries_during_cycling=injuries_during_cycling
         )
 
         background_tasks.add_task(save_to_database, db, client, form_data)
@@ -183,3 +244,4 @@ def submit_form(
     except Exception as e:
         logger.error(e)
         return {"error": "Wystąpił błąd, spróbuj ponownie później."}
+
