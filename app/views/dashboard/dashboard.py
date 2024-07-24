@@ -174,12 +174,20 @@ chatbot = Chatbot()
 
 @router.get("/forms/{form_id}/report-generate")
 async def generate_report_handler(request: Request, form_id: int):
+    current_user = get_current_user(request)
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     generate_report(next(get_db()), form_id)
     return {"message": "Report generated successfully"}
 
 
 @router.get("/forms/{form_id}/chat", response_class=HTMLResponse)
 async def chat_dashboard(request: Request, form_id: int, db: Session = Depends(get_db)):
+    current_user = get_current_user(request)
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     messages = get_messages_by_form_id(db, form_id)
     form_details = get_form_by_id(db, form_id)
 
@@ -198,12 +206,20 @@ async def chat_dashboard(request: Request, form_id: int, db: Session = Depends(g
 
 @router.post("/chat")
 async def chat(request: Request, message: str = Form(...), form_id: int = Form(...)):
+    current_user = get_current_user(request)
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     user_message, bot_response = await chatbot.get_response(message, form_id)
     return JSONResponse(content={"user_message": user_message, "bot_response": bot_response})
 
 
 @router.post("/audio")
 async def audio(request: Request, audio: UploadFile = File(...), form_id: int = Form(...)):
+    current_user = get_current_user(request)
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     contents = await audio.read()
     user_message, bot_response = await chatbot.get_response(contents, form_id, is_audio=True)
     return JSONResponse(content={"user_message": user_message, "bot_response": bot_response})
