@@ -1,8 +1,7 @@
-from typing import Optional
+from io import BytesIO
+from typing import Optional, Union
 
 from openai import OpenAI
-from openai.types.audio import Transcription
-
 from config.settings import settings
 import logging
 
@@ -10,19 +9,37 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_transcription(file_path: str) -> Optional[Transcription]:
+def get_transcription(audio_data: Union[str, bytes]) -> Optional[str]:
     logger.info("Getting transcription")
 
     try:
         client = OpenAI(api_key=settings.OPENAI_APIKEY)
-        audio_file = open(file_path, "rb")
-        transcription = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file,
-            response_format="text"
-        )
+
+        if isinstance(audio_data, str):
+
+            print("String")
+            # If it's a string, assume it's a file path
+            with open(audio_data, "rb") as audio_file:
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file,
+                    response_format="text"
+                )
+                print(transcription)
+        elif isinstance(audio_data, bytes):
+            audio_file = BytesIO(audio_data)
+            audio_file.name = "audio.webm"
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                response_format="text"
+            )
+            print(transcription)
+        else:
+            raise ValueError("Invalid input type. Expected str (file path) or bytes.")
+
         logger.info(f"Transcription: {transcription}")
-        return transcription
+        return str(transcription)
     except Exception as e:
-        logger.error(e)
+        logger.error(f"Error in transcription: {str(e)}")
         return None

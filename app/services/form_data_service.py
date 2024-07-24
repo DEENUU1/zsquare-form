@@ -21,3 +21,7 @@ def delete_form_by_id(db: Session, form_id: int):
     db.query(Report).filter(Report.form_data_id == form_id).delete()
     db.query(FormData).filter(FormData.id == form_id).delete()
     db.commit()
+
+
+def get_form_by_id(db: Session, form_id: int):
+    return db.query(FormData).filter(FormData.id == form_id).first()

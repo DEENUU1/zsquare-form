@@ -1,4 +1,5 @@
 import base64
+import json
 import os
 import tempfile
 from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File
@@ -15,7 +16,9 @@ from services.auth import get_current_user
 from config.settings import settings
 from services.chat import Chatbot
 from services.client_service import create_client, get_clients, get_client_by_id, delete_client_by_id
-from services.form_data_service import get_forms_by_client_id, delete_form_by_id
+from services.form_data_service import get_forms_by_client_id, delete_form_by_id, get_form_by_id
+from services.message_service import get_messages_by_form_id
+from services.report import generate_report
 from services.report_service import get_report_by_form_id
 from services.transcription import get_transcription
 from services.user_service import get_users, delete_user_by_id, update_is_active_user
@@ -169,18 +172,38 @@ def update_isactive_user_handler(request: Request, user_id: int, db: Session = D
 chatbot = Chatbot()
 
 
-@router.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return settings.TEMPLATES.TemplateResponse("chat.html", {"request": request})
+@router.get("/forms/{form_id}/report-generate")
+async def generate_report_handler(request: Request, form_id: int):
+    generate_report(next(get_db()), form_id)
+    return {"message": "Report generated successfully"}
+
+
+@router.get("/forms/{form_id}/chat", response_class=HTMLResponse)
+async def chat_dashboard(request: Request, form_id: int, db: Session = Depends(get_db)):
+    messages = get_messages_by_form_id(db, form_id)
+    form_details = get_form_by_id(db, form_id)
+
+    client_data = get_client_by_id(db, form_details.client_id)
+
+    return settings.TEMPLATES.TemplateResponse(
+        "chat.html",
+        {
+            "request": request,
+            "form_id": form_id,
+            "messages": messages,
+            "client": client_data
+        }
+    )
 
 
 @router.post("/chat")
-async def chat(request: Request, message: str = Form(...), session_id: str = Form(...)):
-    user_message, bot_response = chatbot.get_response(message, session_id)
+async def chat(request: Request, message: str = Form(...), form_id: int = Form(...)):
+    user_message, bot_response = await chatbot.get_response(message, form_id)
     return JSONResponse(content={"user_message": user_message, "bot_response": bot_response})
 
+
 @router.post("/audio")
-async def audio(request: Request, audio: UploadFile = File(...), session_id: str = Form(...)):
+async def audio(request: Request, audio: UploadFile = File(...), form_id: int = Form(...)):
     contents = await audio.read()
-    user_message, bot_response = chatbot.get_response(contents, session_id, is_audio=True)
+    user_message, bot_response = await chatbot.get_response(contents, form_id, is_audio=True)
     return JSONResponse(content={"user_message": user_message, "bot_response": bot_response})

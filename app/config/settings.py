@@ -14,6 +14,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     DEBUG: str = os.getenv("DEBUG") == "True"
     OPENAI_APIKEY: str = os.getenv("OPENAI_APIKEY")
-
+    TAVILY_API_KEY: str = os.getenv("TAVILITY")
 
 settings = Settings()

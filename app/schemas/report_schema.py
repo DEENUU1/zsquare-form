@@ -1,6 +1,10 @@
+from pydantic import BaseModel
 from datetime import datetime
 
-from pydantic import BaseModel
+
+class ReportInputSchema(BaseModel):
+    report_content: str
+    form_data_id: int
 
 
 class ReportOutputSchema(BaseModel):

@@ -13,6 +13,8 @@ RUN pip install -r requirements.txt
 
 RUN addgroup --system app && adduser --system --group app
 
-COPY . .
+COPY app/config /app/config
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8015"]
+COPY .env /app/.env
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8001"]

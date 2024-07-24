@@ -1,4 +1,8 @@
 from datetime import datetime
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def save_temp_file(audio_data: bytes, session_id: str) -> str:

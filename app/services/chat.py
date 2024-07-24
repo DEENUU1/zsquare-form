@@ -8,15 +8,21 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.messages import HumanMessage
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
+
+from config.database import get_db
 from config.settings import settings
 import logging
+from langchain_community.tools.tavily_search import TavilySearchResults
 
+from schemas.message_schema import MessageInputSchema
+from services.message_service import create_message
 from services.speech_generator import get_speech
 from services.transcription import get_transcription
 
 
-logger = logging.getLogger(__name__)
+os.environ["TAVILY_API_KEY"] = settings.TAVILY_API_KEY
 
+logger = logging.getLogger(__name__)
 
 store = {}
 
@@ -31,13 +37,56 @@ class Chatbot:
     def __init__(self, model: str = "gpt-3.5-turbo-1106", temperature: float = 0.4):
         self.model = model
         self.temperature = temperature
-        # TODO improve prompt
         self.prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    "You are a helpful assistant. "
-                    "You may not need to use tools for every query - the user may just want to chat!",
+                    """
+                    ## Important
+                    !!!You need to answer write in Polish language!!!
+                
+                    you are the assistant of a "fitter" who interviews a customer about a bicycle, 
+                    the "fitter" must collect the appropriate data. 
+                    Ask the "fitter" one by one about the appropriate data according to the scenario given below, 
+                    what data it needs to collect. 
+                
+                    ## Important
+                    "Fitter" can also provide data in a different order, 
+                    so you need to pay attention to what you are asking about
+                
+                    ## Data to collect
+                    1. Antropometria
+                    - wysokość ciała
+                    - rękojeść mostka/długość tułowia
+                    - długość wewnętrzna nogi
+                    - szerokość ramion
+                    - zasięg ramion
+                    - adnotacje dotyczące antropometrii
+                    2. Historia sportowana
+                    3. Adnotacja dotycząca historii sportowej, zapytaj czy trzeba coś dodać
+                    4. Obecne problemy z pozycja na rowerze
+                    5. Adnotacja dotycząca problemów z pozycją na rowerze, zapytaj czy trzeba coś dodać
+                    6. Profil otropedyczny/zdrowotny - HERE ASK ABOUT ANY MEDICAL CONDITIONS
+                    7. Profil motoryczny/ocena fizjoterapeutyczna 
+                    8. Adnotacje dotyczące profilu motorycznego/oceny fizjoterapeutycznej
+                    9. Wymiary roweru (tutaj zapytaj krok po kroku o każdy wymiar)
+                    - Wysokość siodła [Końcowe i opcjonalne]
+                    - Model siodła [Końcowe i opcjonalne]
+                    - Rozmiar siodła [Końcowe i opcjonalne]
+                    - Nachylenie siodła [Końcowe i opcjonalne]
+                    - Offset sztycy [Końcowe i opcjonalne]
+                    - Odsunięcie siodła od osi suportu [Końcowe i opcjonalne]
+                    - Końcówka siodła od środka kierownicy [Końcowe i opcjonalne]
+                    - Końcówka siodła do manetki [Końcowe i opcjonalne]
+                    - Różnica wysokości (DROP) [Końcowe i opcjonalne]
+                    - Mostek długość / kąt [Końcowe i opcjonalne]
+                    - Szerokość kierownicy [Końcowe i opcjonalne]
+                    - Model kierownicy [Końcowe i opcjonalne]
+                    - Wysokość podkładek [Końcowe i opcjonalne]
+                    - Długość korby [Końcowe i opcjonalne]
+                    - Kąt manetek (kierownica / dźwignia) [Końcowe i opcjonalne]
+                    10. Adnotacje dotyczące wymiarów roweru
+                    """
                 ),
                 ("placeholder", "{messages}"),
                 ("placeholder", "{agent_scratchpad}"),
@@ -46,7 +95,10 @@ class Chatbot:
 
     @staticmethod
     def get_tools() -> list:
-        return []
+        tavily = TavilySearchResults(max_results=3, tavily_api_key=settings.TAVILY_API_KEY)
+        return [
+            tavily
+        ]
 
     def get_openai_chat(self) -> Optional[ChatOpenAI]:
         try:
@@ -70,7 +122,6 @@ class Chatbot:
 
             agent = create_tool_calling_agent(chat, tools, self.prompt)
             agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
             return RunnableWithMessageHistory(
                 agent_executor,
                 get_session_history,
@@ -81,13 +132,9 @@ class Chatbot:
             logger.error(e)
             return None
 
-    def get_response(
-            self,
-            input_data: Union[str, bytes],
-            session_id: str,
-            is_audio: bool = False
+    async def get_response(
+            self, input_data: Union[str, bytes], form_id: int, is_audio: bool = False
     ) -> Tuple[Optional[dict], Optional[dict]]:
-
         if is_audio:
             transcription = get_transcription(input_data)
             if not transcription:
@@ -96,8 +143,7 @@ class Chatbot:
         else:
             input_message = input_data
 
-        user_message = {"sessionId": session_id, "message": input_message, "isBot": False}
-
+        user_message = {"sessionId": str(form_id), "message": input_message, "isBot": False}
         conversational_agent_executor = self.get_agent()
 
         if not conversational_agent_executor:
@@ -106,19 +152,32 @@ class Chatbot:
         try:
             response = conversational_agent_executor.invoke(
                 {"messages": [HumanMessage(input_message)]},
-                {"configurable": {"session_id": session_id}},
+                {"configurable": {"session_id": str(form_id)}},
             )
             logger.info(f"Response: {response}")
 
-            audio_file = get_speech(response["output"], session_id)
-            audio_url = f"/audio/{os.path.basename(audio_file)}" if audio_file else None
+            audio_file = get_speech(response["output"], str(form_id))
+            audio_url = f"/static/audio/{os.path.basename(audio_file)}" if audio_file else None
             bot_message = {
-                "sessionId": session_id,
+                "sessionId": str(form_id),
                 "message": response["output"],
                 "input": input_message,
                 "isBot": True,
-                "audioUrl": audio_url
+                "audioUrl": audio_url,
             }
+
+            create_message(next(get_db()), MessageInputSchema(
+                role="user",
+                text=input_message,
+                form_id=int(form_id),
+            ))
+
+            create_message(next(get_db()), MessageInputSchema(
+                role="assistant",
+                text=response["output"],
+                form_id=int(form_id),
+            ))
+
             logger.info(f"Bot: {bot_message}")
 
             return user_message, bot_message
@@ -126,5 +185,3 @@ class Chatbot:
         except Exception as e:
             logger.error(e)
             return user_message, None
-
-
