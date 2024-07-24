@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = os.getenv("ALGORITHM")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     DEBUG: str = os.getenv("DEBUG") == "True"
+    OPENAI_APIKEY: str = os.getenv("OPENAI_APIKEY")
 
 
 settings = Settings()
