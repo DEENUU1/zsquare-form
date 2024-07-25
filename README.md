@@ -1,10 +1,9 @@
 # zsquare-form
 
 ```bash
-docker build -t zsquare-chatbot .
-```
+cp .env.example .env
 
 
-```bash
-docker run -p 4000:80 my-python-app
+docker-compose up -d --build
+
 ```
