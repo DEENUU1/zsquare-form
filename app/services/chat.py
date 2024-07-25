@@ -15,7 +15,7 @@ import logging
 from langchain_community.tools.tavily_search import TavilySearchResults
 
 from schemas.message_schema import MessageInputSchema
-from services.message_service import create_message
+from services.message_service import create_message, get_messages_by_form_id
 from services.speech_generator import get_speech
 from services.transcription import get_transcription
 
@@ -30,6 +30,16 @@ store = {}
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
         store[session_id] = ChatMessageHistory()
+
+        db = next(get_db())
+        messages = get_messages_by_form_id(db, int(session_id))
+
+        for message in messages:
+            if message.role == "user":
+                store[session_id].add_user_message(message.text)
+            elif message.role == "assistant":
+                store[session_id].add_ai_message(message.text)
+
     return store[session_id]
 
 

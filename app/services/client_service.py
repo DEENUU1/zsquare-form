@@ -43,3 +43,7 @@ def get_client_by_id(db: Session, client_id: int):
         raise HTTPException(status_code=404, detail="Client not found")
 
     return db.query(Client).filter(Client.id == client_id).first()
+
+
+def search_clients(db: Session, query: str):
+    return db.query(Client).filter(Client.full_name.ilike(f"%{query}%")).all()

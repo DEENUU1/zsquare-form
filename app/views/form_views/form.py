@@ -108,3 +108,9 @@ def submit_form(
         return {"message": "Formularz wysłany!"}
     except Exception as e:
         return {"error": "Wystąpił błąd, spróbuj ponownie później."}
+
+
+@router.get("/thank-you", response_class=HTMLResponse)
+def thank_you(request: Request):
+    context = {"request": request}
+    return settings.TEMPLATES.TemplateResponse("thank_you.html", context)

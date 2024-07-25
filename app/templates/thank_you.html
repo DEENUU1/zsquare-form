@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl" class="min-h-screen bg-gray-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>ZSquare | Dziękujemy</title>
+</head>
+<body class="min-h-screen flex flex-col">
+    {% include 'navbar.html' %}
+
+    <div class="flex-grow flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+            <h1 class="text-3xl font-bold text-center text-green-600 mb-4">Dziękujemy!</h1>
+            <p class="text-gray-700 text-center mb-6">Twój formularz został pomyślnie wysłany. Skontaktujemy się z Tobą wkrótce.</p>
+            <div class="text-center">
+                <a href="/" class="inline-block px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-300">
+                    Powrót do strony głównej
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center text-sm text-gray-500 p-4">
+        &copy; 2024 ZSquare. Wszelkie prawa zastrzeżone.
+    </footer>
+</body>
+</html>

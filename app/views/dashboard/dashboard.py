@@ -2,7 +2,7 @@ import base64
 import json
 import os
 import tempfile
-from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File
+from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File, Query
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from sqlalchemy.orm import Session
@@ -12,12 +12,13 @@ from starlette.responses import JSONResponse
 
 from config.database import get_db
 from models.client import Client
+from schemas.message_schema import MessageInputSchema
 from services.auth import get_current_user
 from config.settings import settings
 from services.chat import Chatbot
-from services.client_service import create_client, get_clients, get_client_by_id, delete_client_by_id
+from services.client_service import create_client, get_clients, get_client_by_id, delete_client_by_id, search_clients
 from services.form_data_service import get_forms_by_client_id, delete_form_by_id, get_form_by_id
-from services.message_service import get_messages_by_form_id
+from services.message_service import get_messages_by_form_id, create_message
 from services.report import generate_report
 from services.report_service import get_report_by_form_id
 from services.transcription import get_transcription
@@ -45,6 +46,16 @@ def get_clients_handler(request: Request, db: Session = Depends(get_db)):
             "user": current_user
         }
     )
+
+
+@router.get("/clients/search")
+def search_clients_handler(request: Request, query: str = Query(..., min_length=1), db: Session = Depends(get_db)):
+    current_user = get_current_user(request)
+    if not current_user:
+        return RedirectResponse("/user/login")
+
+    clients = search_clients(db, query)
+    return clients
 
 
 @router.get("/clients/{client_id}", response_class=HTMLResponse)
@@ -189,6 +200,14 @@ async def chat_dashboard(request: Request, form_id: int, db: Session = Depends(g
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     messages = get_messages_by_form_id(db, form_id)
+
+    if not messages:
+        create_message(next(get_db()), MessageInputSchema(
+            role="assistant",
+            text="Proszę podać wzrost klienta",
+            form_id=int(form_id),
+        ))
+
     form_details = get_form_by_id(db, form_id)
 
     client_data = get_client_by_id(db, form_details.client_id)

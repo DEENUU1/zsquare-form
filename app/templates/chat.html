@@ -21,12 +21,18 @@
                class="text-blue-500 hover:text-blue-700 hover:underline transition duration-300 ease-in-out">
                 {{client.full_name}}
             </a>
-        </h1>        {% for message in messages %}
-            <div class="flex {% if message.role == 'assistant' %}justify-start{% else %}justify-end{% endif %} mb-4">
-                <div class="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3 {% if message.role == 'assistant' %}bg-gray-200 text-gray-900 shadow-md{% else %}bg-blue-500 text-white{% endif %}">
-                    {{ message.text }}
-                </div>
+
+        </h1>
+        <span class="block text-center">
+              ID Formularza: {{form_id}}
+            </span>
+        {% for message in messages %}
+
+        <div class="flex {% if message.role == 'assistant' %}justify-start{% else %}justify-end{% endif %} mb-4">
+            <div class="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3 {% if message.role == 'assistant' %}bg-gray-200 text-gray-900 shadow-md{% else %}bg-blue-500 text-white{% endif %}">
+                {{ message.text }}
             </div>
+        </div>
         {% endfor %}
     </div>
     <div class="mt-auto">
@@ -70,9 +76,11 @@
         e.preventDefault();
         const message = $('#message-input').val();
         if (message) {
+            addMessage(message, false);
+
             $.post('/dashboard/chat', {message: message, form_id: sessionId}, function (data) {
                 if (data.user_message) {
-                    addMessage(data.user_message.message, false);
+                    updateLastMessage(data.user_message.message, false);
                 }
                 if (data.bot_response) {
                     addMessage(data.bot_response.message, true);
@@ -111,6 +119,8 @@
             formData.append('audio', blob, 'recording.wav');
             formData.append('form_id', sessionId);
 
+            addMessage("Nagranie...", false);
+
             $.ajax({
                 url: '/dashboard/audio',
                 type: 'POST',
@@ -119,7 +129,7 @@
                 contentType: false,
                 success: function (data) {
                     if (data.user_message) {
-                        addMessage(data.user_message.message, false);
+                        updateLastMessage(data.user_message.message, false);
                     }
                     if (data.bot_response) {
                         addMessage(data.bot_response.message, true);
@@ -134,6 +144,15 @@
             isRecording = false;
             updateRecordingButton();
         });
+    }
+
+    function updateLastMessage(message, isBot) {
+        const chatMessages = document.getElementById('chat-messages');
+        const lastMessage = chatMessages.lastElementChild;
+        if (lastMessage) {
+            const innerDiv = lastMessage.querySelector('div');
+            innerDiv.textContent = message;
+        }
     }
 
     function updateRecordingButton() {
