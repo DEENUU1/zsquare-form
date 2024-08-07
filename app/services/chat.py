@@ -1,7 +1,9 @@
 import os
+import datetime
 from typing import Optional, Union, Tuple
 
 from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.tools import BaseTool
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.agents import AgentExecutor, create_tool_calling_agent
@@ -12,19 +14,33 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from config.database import get_db
 from config.settings import settings
 import logging
-from langchain_community.tools.tavily_search import TavilySearchResults
-
 from schemas.message_schema import MessageInputSchema
 from services.message_service import create_message, get_messages_by_form_id
 from services.speech_generator import get_speech
 from services.transcription import get_transcription
 
 
-os.environ["TAVILY_API_KEY"] = settings.TAVILY_API_KEY
-
 logger = logging.getLogger(__name__)
 
 store = {}
+
+
+def get_current_time():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+class CurrentTimeTool(BaseTool):
+    name = "current_time_tool"
+    description = "Useful for when you need to answer questions about current date and time"
+
+    def _to_args_and_kwargs(self, tool_input: Union[str, dict]) -> Tuple[Tuple, dict]:
+        return (), {}
+
+    def _run(self) -> str:
+        return get_current_time()
+
+    async def _arun(self) -> str:
+        raise NotImplementedError("custom_search does not support async")
 
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
@@ -105,10 +121,7 @@ class Chatbot:
 
     @staticmethod
     def get_tools() -> list:
-        tavily = TavilySearchResults(max_results=3, tavily_api_key=settings.TAVILY_API_KEY)
-        return [
-            tavily
-        ]
+        return [CurrentTimeTool()]
 
     def get_openai_chat(self) -> Optional[ChatOpenAI]:
         try:

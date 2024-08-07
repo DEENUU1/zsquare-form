@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func, create_engine, Boolean
+from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, func
 from config.database import Base
 from enum import Enum
 from sqlalchemy import Enum as SQLAlchemyEnum

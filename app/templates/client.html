@@ -66,7 +66,7 @@
             {% for form in forms %}
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap">{{form.id}}</td>
-                <td class="px-6 py-4 whitespace-nowrap">{{form.bike or 'Brak danych'}}</td>
+                <td class="px-6 py-4 whitespace-nowrap">{{form.bike_brand or 'Brak danych'}}</td>
                 <td class="px-6 py-4 whitespace-nowrap">{{form.created_at}}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
                     <a href="/dashboard/forms/{{form.id}}/chat"
@@ -191,25 +191,28 @@
 
     function showFormDetails(form) {
         const detailsHtml = `
-            <p><strong>Rower:</strong> ${form.bike || 'Brak danych'}</p>
-            <p><strong>Buty:</strong> ${form.boots || 'Brak danych'}</p>
-            <p><strong>Wkładki:</strong> ${form.insoles || 'Brak danych'}</p>
-            <p><strong>Pedały:</strong> ${form.pedals || 'Brak danych'}</p>
-            <p><strong>Inne rowery:</strong> ${form.other_bikes || 'Brak danych'}</p>
-            <p><strong>Historia sportowa:</strong> ${form.sport_history || 'Brak danych'}</p>
-            <p><strong>Lata jazdy na rowerze:</strong> ${form.years_cycling || 'Brak danych'}</p>
-            <p><strong>Roczny przebieg:</strong> ${form.annual_mileage || 'Brak danych'} km</p>
-            <p><strong>Tygodniowe jazdy:</strong> ${form.weekly_rides || 'Brak danych'}</p>
-            <p><strong>Czas trwania sesji:</strong> ${form.session_duration || 'Brak danych'}</p>
-            <p><strong>Udział w wyścigach:</strong> ${form.participated_in_races || 'Brak danych'}</p>
-            <p><strong>Najlepsze wyniki:</strong> ${form.best_results || 'Brak danych'}</p>
+            <p><strong>Marka roweru:</strong> ${form.bike_brand || 'Brak danych'}</p>
+            <p><strong>Model roweru:</strong> ${form.bike_model || 'Brak danych'}</p>
+            <p><strong>Rozmiar roweru:</strong> ${form.bike_size || 'Brak danych'}</p>
+            <p><strong>Rok produkcji roweru:</strong> ${form.bike_year || 'Brak danych'}</p>
+            <p><strong>Grupa napędowa:</strong> ${form.drive_group || 'Brak danych'}</p>
+            <p><strong>Roczny przebieg:</strong> ${form.year_distance || 'Brak danych'} km</p>
+            <p><strong>Tygodniowa częstotliwość:</strong> ${form.weekly_frequency || 'Brak danych'}</p>
+            <p><strong>Średni dystans na sesję:</strong> ${form.avg_kilometer || 'Brak danych'} km</p>
+            <p><strong>Styl jazdy:</strong> ${form.ride_style || 'Brak danych'}</p>
+            <p><strong>Udział w wydarzeniach:</strong> ${form.event || 'Brak danych'}</p>
+            <p><strong>Inne aktywności:</strong> ${form.other_activity || 'Brak danych'}</p>
+            <p><strong>Cel wizyty:</strong> ${form.visit_goal || 'Brak danych'}</p>
+            <p><strong>Problemy zgłaszane podczas wizyty:</strong> ${form.visit_problems || 'Brak danych'}</p>
+            <p><strong>Kontuzje:</strong> ${form.injuries || 'Brak danych'}</p>
             <button onclick="downloadPDF(${form.id})" class="mt-4 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
                 Pobierz PDF
-            </button
+            </button>
         `;
         document.getElementById('formDetailsContent').innerHTML = detailsHtml;
         document.getElementById('formDetailsModal').classList.remove('hidden');
     }
+
 
     function downloadPDF(formId) {
         window.location.href = `/dashboard/forms/${formId}/report`;

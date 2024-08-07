@@ -62,6 +62,11 @@
                                     data-section="5">5
                             </button>
                         </div>
+                        <div class="m-1">
+                            <button type="button" class="section-btn px-3 py-1 bg-gray-300 text-gray-700 rounded-full"
+                                    data-section="6">6
+                            </button>
+                        </div>
                     </div>
                     <button type="button" id="nextBtn" class="px-4 py-2 bg-green-500 text-white rounded-md">Następny
                     </button>
@@ -91,8 +96,7 @@
                     </div>
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefon*</label>
-                        <input required placeholder="123-123-123" id="phone" name="phone" type="tel"
-                               pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"
+                        <input required placeholder="123-123-123" id="phone" name="phone"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div class="md:col-span-2">
@@ -107,320 +111,137 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Sprzęt rowerowy</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="bike" class="block text-sm font-medium text-gray-700 mb-2">Rower</label>
-                        <input placeholder="Marka/model/rozmiar" id="bike" name="bike" type="text"
+                        <label for="bike" class="block text-sm font-medium text-gray-700 mb-2">Marka roweru</label>
+                        <input placeholder="Marka" id="bike_brand" name="bike_brand" type="text"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div>
-                        <label for="shoes" class="block text-sm font-medium text-gray-700 mb-2">Buty</label>
-                        <input placeholder="Marka/model" id="shoes" name="shoes" type="text"
+                        <label for="shoes" class="block text-sm font-medium text-gray-700 mb-2">Model roweru</label>
+                        <input placeholder="Model" id="bike_model" name="bike_model" type="text"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div>
-                        <label for="inserts" class="block text-sm font-medium text-gray-700 mb-2">Wkładki</label>
-                        <input placeholder="Typ wkładek" id="inserts" name="inserts" type="text"
+                        <label for="inserts" class="block text-sm font-medium text-gray-700 mb-2">Rozmiar roweru</label>
+                        <input placeholder="Rozmiar" id="bike_size" name="bike_size" type="text"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div>
-                        <label for="pedals" class="block text-sm font-medium text-gray-700 mb-2">Pedały</label>
-                        <input placeholder="Marka/model" id="pedals" name="pedals" type="text"
+                        <label for="pedals" class="block text-sm font-medium text-gray-700 mb-2">Rocznik</label>
+                        <input placeholder="Rocznik" id="bike_year" name="bike_year" type="text"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div class="md:col-span-2">
-                        <label for="other_bike" class="block text-sm font-medium text-gray-700 mb-2">Inne rowery</label>
-                        <input placeholder="Dodatkowe rowery" id="other_bike" name="other_bike" type="text"
+                        <label for="other_bike" class="block text-sm font-medium text-gray-700 mb-2">Grupa
+                            napędowa</label>
+                        <input placeholder="Grupa napędowa" id="drive_group" name="drive_group" type="text"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="adnotation" class="block text-sm font-medium text-gray-700 mb-2">Adnotacja</label>
-                        <textarea placeholder="Dodatkowe informacje o sprzęcie" id="adnotation" name="adnotation"
-                                  rows="3"
-                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out resize-y"></textarea>
                     </div>
                 </div>
             </div>
 
             <div id="section3" class="section hidden p-6 bg-white rounded-lg shadow-lg">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Historia sportowa</h2>
+
                 <div class="space-y-6">
                     <div>
-                        <label for="sport_history" class="block text-sm font-medium text-gray-700 mb-2">Historia
-                            sportowa</label>
-                        <textarea
-                                placeholder="Liczba lat uprawiania kolarstwa, historia startów, wyniki, czas treningu w tygodniu, standardowa jazda długość, pomiar mocy/kadencji, cele sportowe, inne aktywności sportowe"
-                                id="sport_history" name="sport_history" rows="6"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out resize-y"></textarea>
+                        <label for="year_distance" class="block text-sm font-medium text-gray-700 mb-2">Roczny dystans
+                            (w kilometrach)</label>
+                        <input placeholder="Dystans" id="year_distance" name="year_distance" type="text"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                     <div>
-                        <label for="sport_history_adnotation"
-                               class="block text-sm font-medium text-gray-700 mb-2">Adnotacja</label>
-                        <textarea placeholder="Dodatkowe uwagi dotyczące historii sportowej"
-                                  id="sport_history_adnotation"
-                                  name="sport_history_adnotation" rows="3"
-                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out resize-y"></textarea>
+                        <label for="weekly_frequency" class="block text-sm font-medium text-gray-700 mb-2">Ilość sesji
+                            tygodniowo</label>
+                        <input placeholder="Częstotliwość" id="weekly_frequency" name="weekly_frequency" type="text"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
+                    </div>
+                    <div>
+                        <label for="avg_kilometers" class="block text-sm font-medium text-gray-700 mb-2">Średni czas na
+                            kilometr</label>
+                        <input placeholder="Czas na kilometr" id="avg_kilometers" name="avg_kilometers" type="text"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
                 </div>
             </div>
 
             <div id="section4" class="section hidden p-6 bg-white rounded-lg shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Szczegóły historii sportowej</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Styl jazdy</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="years_cycling" class="block text-sm font-medium text-gray-700 mb-2">Ile lat jeździsz
-                            na
-                            rowerze szosowym / gravelowym</label>
-                        <input type="number" id="years_cycling" name="years_cycling"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
 
                     <div>
-                        <label for="annual_mileage" class="block text-sm font-medium text-gray-700 mb-2">Jaki jest twój
-                            roczny przebieg w kilometrach</label>
-                        <input type="number" id="annual_mileage" name="annual_mileage"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
+                        <label for="ride_style" class="block text-sm font-medium text-gray-700 mb-2">Styl jazdy</label>
+                        <select id="ride_style" name="ride_style"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
+                            <option value="">Wybierz opcję</option>
+                            <option value="sport">Sportowy</option>
+                            <option value="recreation">Rekreacyjny</option>
+                        </select>
                     </div>
 
-                    <div>
-                        <label for="weekly_rides" class="block text-sm font-medium text-gray-700 mb-2">Ile razy w
-                            tygodniu
-                            wychodzisz na rower</label>
-                        <input type="number" id="weekly_rides" name="weekly_rides"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
 
                     <div>
-                        <label for="session_duration" class="block text-sm font-medium text-gray-700 mb-2">Ile trwa
-                            jedna
-                            sesja</label>
-                        <input type="text" id="session_duration" name="session_duration"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Czy do tej pory startowałeś w
-                            zawodach</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Czy bierzesz udział w imprezach
+                            sportowych / wyścigach?</label>
                         <div class="mt-2 space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="radio" name="participated_in_races" value="yes"
+                                <input type="radio" name="event" value="yes"
                                        class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
                                 <span class="ml-2">Tak</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="radio" name="participated_in_races" value="no"
+                                <input type="radio" name="event" value="no"
                                        class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
                                 <span class="ml-2">Nie</span>
                             </label>
                         </div>
                     </div>
 
+
                     <div>
-                        <label for="best_results" class="block text-sm font-medium text-gray-700 mb-2">Jeśli startowałeś
-                            podaj najlepsze wyniki</label>
-                        <input type="text" id="best_results" name="best_results"
+                        <label for="other_activity" class="block text-sm font-medium text-gray-700 mb-2">Wypisz
+                            aktywności lub inne sporty które uprawiasz</label>
+                        <input type="text" id="other_activity" name="other_activity"
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
                     </div>
 
-                    <div>
-                        <label for="intensity_measurement" class="block text-sm font-medium text-gray-700 mb-2">Jeśli
-                            mierzysz intensywność jazdy to w jaki sposób</label>
-                        <select id="intensity_measurement" name="intensity_measurement"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="nie_mierze">Nie mierzę</option>
-                            <option value="skala_rpe">Skala RPE</option>
-                            <option value="pulsometr">Pulsometr</option>
-                            <option value="pomiar_mocy">Pomiar mocy</option>
-                        </select>
-                    </div>
 
-                    <div>
-                        <label for="other_sports" class="block text-sm font-medium text-gray-700 mb-2">Czy poza rowerem
-                            uprawiasz inne sporty</label>
-                        <input type="text" id="other_sports" name="other_sports"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
-
-                    <div>
-                        <label for="bike_confidence" class="block text-sm font-medium text-gray-700 mb-2">Jak pewnie
-                            czujesz
-                            się na rowerze</label>
-                        <select id="bike_confidence" name="bike_confidence"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję (1-10)</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Czy podczas jazdy zmieniasz
-                            biegi?</label>
-                        <div class="mt-2 space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="gear_changing" value="yes"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Tak</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="gear_changing" value="no"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Nie</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Czy jeździsz jesienią i zimą</label>
-                        <div class="mt-2 space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="autumn_winter_riding" value="yes"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Tak</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="autumn_winter_riding" value="no"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Nie</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="preferred_grip" class="block text-sm font-medium text-gray-700 mb-2">Który chwyt
-                            kierownicy preferujesz</label>
-                        <select id="preferred_grip" name="preferred_grip"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="gorny">Górny</option>
-                            <option value="dolny">Dolny</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="cadence_comfort" class="block text-sm font-medium text-gray-700 mb-2">Czy czujesz
-                            większy komfort jeżdząc na wysokiej czy na niskiej kadencji?</label>
-                        <select id="cadence_comfort" name="cadence_comfort"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="wysoka">Wysoka kadencja</option>
-                            <option value="niska">Niska kadencja</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="other_bikes" class="block text-sm font-medium text-gray-700 mb-2">Czy poza rowerem
-                            sportowym posiadasz inne rowery?</label>
-                        <input type="text" id="other_bikes" name="other_bikes"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
-
-                    <div>
-                        <label for="group_riding_skills" class="block text-sm font-medium text-gray-700 mb-2">Jak
-                            określasz
-                            swoje umiejętności jazdy w grupie</label>
-                        <select id="group_riding_skills" name="group_riding_skills"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="poczatkujacy">Początkujący</option>
-                            <option value="sredniozaawansowany">Średniozaawansowany</option>
-                            <option value="zaawansowany">Zaawansowany</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="cornering_style" class="block text-sm font-medium text-gray-700 mb-2">Jak lubisz
-                            pokonywać zakręty</label>
-                        <select id="cornering_style" name="cornering_style"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="szybko">Szybko i dynamicznie</option>
-                            <option value="wolno">Wolniej i ostrożniej</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="brake_usage" class="block text-sm font-medium text-gray-700 mb-2">Jakiego hamulca
-                            używasz?</label>
-                        <select id="brake_usage" name="brake_usage"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="przedni">Tylko przedni</option>
-                            <option value="tylni">Tylko tylni</option>
-                            <option value="oba">Przedni i tylni</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="tire_pressure_check" class="block text-sm font-medium text-gray-700 mb-2">Jak często
-                            sprawdzasz ciśnienie opon</label>
-                        <select id="tire_pressure_check" name="tire_pressure_check"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
-                            <option value="">Wybierz opcję</option>
-                            <option value="przed_kazda_jazda">Przed każdą jazdą</option>
-                            <option value="raz_w_tygodniu">Raz w tygodniu</option>
-                            <option value="okazyjnie">Okazyjnie</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="injuries" class="block text-sm font-medium text-gray-700 mb-2">Czy przebyłeś
-                            kontuzje?</label>
-                        <input type="text" id="injuries" name="injuries"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"/>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Czy kontuzje te przydarzyły się
-                            podczas
-                            jazdy na rowerze?</label>
-                        <div class="mt-2 space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="injuries_during_cycling" value="yes"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Tak</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="injuries_during_cycling" value="no"
-                                       class="form-radio text-green-500 focus:ring-2 focus:ring-green-500">
-                                <span class="ml-2">Nie</span>
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <div id="section5" class="section hidden p-6 bg-white rounded-lg shadow-lg">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Problem</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Pytanie o cel wizyty</h2>
                 <div class="space-y-6">
                     <div>
-                        <label for="position_problem" class="block text-sm font-medium text-gray-700 mb-2">Obecne
-                            problemy z
-                            pozycją na rowerze</label>
-                        <textarea
-                                placeholder="Opisz swój problem z pozycją na rowerze"
-                                id="position_problem" name="position_problem" rows="6"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y">
-            </textarea>
+                        <label for="visit_goal" class="block text-sm font-medium text-gray-700 mb-2">Cel wizyty</label>
+                        <select id="visit_goal" name="visit_goal" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out">
+                            <option value="">Wybierz opcję</option>
+                            <option value="reduction">Redukcja dolegliwości</option>
+                            <option value="improvement">Poprawa efektywności</option>
+                            <option value="discussion">Omówienie zmian komponentów</option>
+                        </select>
                     </div>
-                    <div>
-                        <label for="adnotation_position_problem" class="block text-sm font-medium text-gray-700 mb-2">Adnotacja
-                            do problemów z pozycją na rowerze</label>
-                        <textarea
-                                placeholder="Problem z hamowaniem - małe dłonie"
-                                id="adnotation_position_problem" name="adnotation_position_problem" rows="6"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y">
-            </textarea>
+
+                    <div id="visit_problems_container" class="hidden">
+                        <label for="visit_problems" class="block text-sm font-medium text-gray-700 mb-2">Opis
+                            problemów</label>
+                        <textarea id="visit_problems" name="visit_problems" rows="6"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
                     </div>
                 </div>
             </div>
+
+<div id="section6" class="section hidden p-6 bg-white rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Przebyte kontuzje / operacje / choroby towarzyszące</h2>
+    <div class="space-y-6">
+        <div>
+            <label for="injuries" class="block text-sm font-medium text-gray-700 mb-2">Opis kontuzji, operacji lub chorób</label>
+            <textarea id="injuries" name="injuries" rows="6"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-150 ease-in-out resize-y"></textarea>
+        </div>
+    </div>
+</div>
+
 
             <div class="text-right">
                 <button type="submit" id="submitBtn"
@@ -435,6 +256,17 @@
     &copy; 2024 ZSquare. Wszelkie prawa zastrzeżone.
 </footer>
 <script>
+    const visitGoalElement = document.getElementById('visit_goal');
+    const visitProblemsContainer = document.getElementById('visit_problems_container');
+
+    visitGoalElement.addEventListener('change', function () {
+        if (visitGoalElement.value === 'reduction') {
+            visitProblemsContainer.classList.remove('hidden');
+        } else {
+            visitProblemsContainer.classList.add('hidden');
+        }
+    });
+
     function validateForm() {
         const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
         let isValid = true;
@@ -493,7 +325,7 @@
 
 
     let currentSection = 1;
-    const totalSections = 5;
+    const totalSections = 6;
 
     function showSection(sectionNumber) {
         if (sectionNumber > currentSection && !validateCurrentSection()) {

@@ -1,5 +1,4 @@
 import base64
-import json
 import os
 import tempfile
 from fastapi import APIRouter, Request, Depends, Form, HTTPException, UploadFile, File, Query
@@ -12,16 +11,14 @@ from starlette.responses import JSONResponse
 
 from config.database import get_db
 from models.client import Client
-from schemas.message_schema import MessageInputSchema
 from services.auth import get_current_user
 from config.settings import settings
 from services.chat import Chatbot
 from services.client_service import create_client, get_clients, get_client_by_id, delete_client_by_id, search_clients
 from services.form_data_service import get_forms_by_client_id, delete_form_by_id, get_form_by_id
-from services.message_service import get_messages_by_form_id, create_message
+from services.message_service import get_messages_by_form_id
 from services.report import generate_report
 from services.report_service import get_report_by_form_id
-from services.transcription import get_transcription
 from services.user_service import get_users, delete_user_by_id, update_is_active_user
 from utils.model_serializer import serialize_model
 
@@ -190,6 +187,7 @@ async def generate_report_handler(request: Request, form_id: int):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     generate_report(next(get_db()), form_id)
+
     return {"message": "Report generated successfully"}
 
 
@@ -200,13 +198,6 @@ async def chat_dashboard(request: Request, form_id: int, db: Session = Depends(g
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     messages = get_messages_by_form_id(db, form_id)
-
-    if not messages:
-        create_message(next(get_db()), MessageInputSchema(
-            role="assistant",
-            text="Proszę podać wzrost klienta",
-            form_id=int(form_id),
-        ))
 
     form_details = get_form_by_id(db, form_id)
 

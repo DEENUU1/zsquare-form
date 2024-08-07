@@ -119,7 +119,7 @@ def convert_messages_to_dict(messages: List[MessageOutputSchema]) -> list[dict]:
     return conversation
 
 
-def get_conversation_information(messages: List[MessageOutputSchema]) -> Optional[dict]:
+def get_conversation_information(messages: list[dict]) -> Optional[dict]:
     vision_prompt = """
     Process conversation and return structured output based on the given schema.
     Collect the following data:
@@ -157,11 +157,9 @@ def get_conversation_information(messages: List[MessageOutputSchema]) -> Optiona
     """
     conversation_chain = load_message_chain | conversation_model | parser
 
-    messages_dict = convert_messages_to_dict(messages)
-
     try:
         return conversation_chain.invoke(
-            {"message_dict": messages_dict, "prompt": vision_prompt}
+            {"message_dict": messages, "prompt": vision_prompt}
         )
     except OutputParserException as e:
         logger.error(f"Failed to parse the output (OutputParserException): {e}")
@@ -178,11 +176,17 @@ def generate_session_summary(form_data: FormOutputSchema, conversation_structure
 
     prompt = f"""
     ### !IMPORTANT!
-    Your answer must be in polish.
-
+    Your answer must be in polish. Return only the summary of changes nothing more.
     Based on the provided data from the fitter-chatbot conversation and data from the user form, 
     create a summary of changes introduced in the bike settings.
 
+    # Rules
+    - Include only data based on client data and conversation data.
+    - Do not include any additional information that is not related to the bike settings changes.
+    - If there are no changes, do not include any information about it.
+    - Return only the summary of changes nothing more.
+    
+    
     ### Client data
     {form_data}
 
@@ -245,10 +249,9 @@ def generate_session_summary(form_data: FormOutputSchema, conversation_structure
     try:
         client = OpenAI(api_key=settings.OPENAI_APIKEY)
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt},
+                {"role": "system", "content": prompt},
             ],
         )
         if not response:

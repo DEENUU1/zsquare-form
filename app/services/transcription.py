@@ -16,16 +16,12 @@ def get_transcription(audio_data: Union[str, bytes]) -> Optional[str]:
         client = OpenAI(api_key=settings.OPENAI_APIKEY)
 
         if isinstance(audio_data, str):
-
-            print("String")
-            # If it's a string, assume it's a file path
             with open(audio_data, "rb") as audio_file:
                 transcription = client.audio.transcriptions.create(
                     model="whisper-1",
                     file=audio_file,
                     response_format="text"
                 )
-                print(transcription)
         elif isinstance(audio_data, bytes):
             audio_file = BytesIO(audio_data)
             audio_file.name = "audio.webm"

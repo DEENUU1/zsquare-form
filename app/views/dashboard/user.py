@@ -28,11 +28,12 @@ async def login(
 ):
     user = get_user_by_email(db, email)
 
-    if not user.is_active:
-        return settings.TEMPLATES.TemplateResponse(
-            "login.html",
-            {"request": request, "error": "Użytkownik jest nieaktywny"}
-        )
+    # TODO uncomment it later
+    # if not user.is_active:
+    #     return settings.TEMPLATES.TemplateResponse(
+    #         "login.html",
+    #         {"request": request, "error": "Użytkownik jest nieaktywny"}
+    #     )
 
     if not user or not verify_password(password, user.hashed_password):
         return settings.TEMPLATES.TemplateResponse(

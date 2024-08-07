@@ -119,7 +119,7 @@
             formData.append('audio', blob, 'recording.wav');
             formData.append('form_id', sessionId);
 
-            addMessage("Nagranie...", false);
+            addMessage("Przetwarzanie...", false);
 
             $.ajax({
                 url: '/dashboard/audio',
