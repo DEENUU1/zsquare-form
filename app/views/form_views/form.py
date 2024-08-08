@@ -19,8 +19,8 @@ def home(
 
 
 def submit_form_to_api(form_data):
-    url = settings.API_URL + "submit-form"
-    response = requests.post(url, data=form_data)
+    response = requests.post(settings.API_URL, json=form_data)
+    print(response.json())
     return response.json()
 
 
