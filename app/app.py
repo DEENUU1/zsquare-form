@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import logging
-from utils.init_db import init_db
 from views.router import router
 from config.settings import settings
 
@@ -25,11 +24,6 @@ else:
     )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-@app.on_event("startup")
-def on_startup():
-    init_db()
 
 
 @app.exception_handler(404)

@@ -1,13 +1,8 @@
+import requests
 from fastapi import Depends, Request, Form, BackgroundTasks, APIRouter
 from sqlalchemy.orm import Session
 from starlette.responses import HTMLResponse
-
-from config.database import get_db
 from config.settings import settings
-from models.client import Client
-from models.form_data import FormData
-from services.client_service import client_exists_by_email
-from tasks.save_form import save_form_data
 
 router = APIRouter(
     prefix="",
@@ -23,10 +18,15 @@ def home(
     return settings.TEMPLATES.TemplateResponse("form.html", context)
 
 
+def submit_form_to_api(form_data):
+    url = settings.API_URL + "submit-form"
+    response = requests.post(url, data=form_data)
+    return response.json()
+
+
 @router.post("/submit-form")
 def submit_form(
         request: Request,
-        background_tasks: BackgroundTasks,
         full_name: str = Form(...),
         birth_date: str = Form(None),
         location: str = Form(None),
@@ -46,34 +46,33 @@ def submit_form(
         visit_goal: str = Form(...),
         visit_problems: str = Form(None),
         injuries: str = Form(None),
-        db: Session = Depends(get_db),
 ):
     try:
-        existing_user = client_exists_by_email(db, email)
-        if not existing_user:
-            return {"error": "Podaj poprawny adres email."}
+        form_data = {
+            "full_name": full_name,
+            "birth_date": birth_date,
+            "location": location,
+            "phone": phone,
+            "email": email,
+            "bike_brand": bike_brand,
+            "bike_model": bike_model,
+            "bike_size": bike_size,
+            "bike_year": bike_year,
+            "drive_group": drive_group,
+            "year_distance": year_distance,
+            "weekly_frequency": weekly_frequency,
+            "avg_kilometer": avg_kilometer,
+            "ride_style": ride_style,
+            "event": event,
+            "other_activity": other_activity,
+            "visit_goal": visit_goal,
+            "visit_problems": visit_problems,
+            "injuries": injuries,
+        }
 
-        client = Client(full_name=full_name, birth_date=birth_date, location=location, phone=phone, email=email)
+        response = submit_form_to_api(form_data)
+        return response
 
-        form_data = FormData(
-            bike_brand=bike_brand,
-            bike_model=bike_model,
-            bike_size=bike_size,
-            bike_year=bike_year,
-            drive_group=drive_group,
-            year_distance=year_distance,
-            weekly_frequency=weekly_frequency,
-            avg_kilometer=avg_kilometer,
-            ride_style=ride_style,
-            event=event,
-            other_activity=other_activity,
-            visit_goal=visit_goal,
-            visit_problems=visit_problems,
-            injuries=injuries,
-        )
-
-        background_tasks.add_task(save_form_data, db, client, form_data)
-        return {"message": "Formularz wysłany!"}
     except Exception as e:
         return {"error": "Wystąpił błąd, spróbuj ponownie później."}
 
